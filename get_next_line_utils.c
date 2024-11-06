@@ -55,3 +55,27 @@ char	*ft_putstr(char *s)
 	}
 	return(&s[i]);
 }
+
+char	*ft_strdup(const char *s)
+{
+	char	*ptr;
+	int		len;
+	char	*str;
+
+	len = 0;
+	str = (char *) s;
+	while (str[len] != '\0' && str[len] != '\n')
+		len++;
+	ptr = (char *)malloc(sizeof(char) * (len + 1));
+	if (ptr == NULL)
+		return (NULL);
+	len = 0;
+	while (str[len] != '\0')
+	{
+		ptr[len] = str[len];
+		len++;
+	}
+	ptr[len] = '\0';
+	free(s);
+	return (ptr);
+}

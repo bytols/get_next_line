@@ -2,16 +2,34 @@
 
 char *get_next_line(int fd)
 {
-	char    letter;
-	char    buffer[4];
+	char    *letter;
     int k;
-    static char* next_line;
+    static char* overflow;
 
     k = 3;
     read(fd, buffer, k);
-    buffer[k] = '\0';
     next_line = ft_putstr(buffer);
     return(next_line);  
+}
+
+void get_line(int fd, overflow)
+{
+    char    *chunk;
+    char    *line
+    int     text;
+
+    chunk = malloc(sizeof(char) * (BUFFER_SIZE + 1));
+    chunk[BUFFER_SIZE] = '\0';
+
+    while (text)
+    {
+        text = read(fd, chunk, BUFFER_SIZE);
+        ft_strjoin(line, chunk);
+        
+        if(/*line não tiver encontrado ainda o \n*/)
+            break;
+        ft_putstr(line);
+    }
 }
 
 int main()
