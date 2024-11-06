@@ -3,17 +3,27 @@
 char *get_next_line(int fd)
 {
 	char    letter;
-	char    buffer[400];
+	char    buffer[4];
+    int k;
+    static char* next_line;
 
-    read(fd, buffer, 300);
-    ft_putstr_fd(buffer, 1);
-	close(fd);
+    k = 3;
+    read(fd, buffer, k);
+    buffer[k] = '\0';
+    next_line = ft_putstr(buffer);
+    return(next_line);  
 }
+
 int main()
 {
     int fd;
-    
+    int i;
+
     fd = open("text.txt", O_RDWR);
-    get_next_line(fd);
+    for(i = 0; i < 2; i++)
+    {
+        get_next_line(fd);
+    }
+    close(fd);
     return (0);
 }
