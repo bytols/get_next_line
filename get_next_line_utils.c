@@ -43,14 +43,15 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (ptr);
 }
 
-void	ft_putstr_fd(char *s, int fd)
+char	*ft_putstr(char *s)
 {
 	int		i;
 
 	i = 0;
 	while (s[i] != '\0' && s[i] != '\r')
 	{
-		write (fd, &s[i], 1);
+		write (1, &s[i], 1);
 		i++;
 	}
+	return(&s[i]);
 }
