@@ -76,6 +76,5 @@ char	*ft_strdup(const char *s)
 		len++;
 	}
 	ptr[len] = '\0';
-	free(s);
 	return (ptr);
 }
