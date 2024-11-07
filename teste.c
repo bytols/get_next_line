@@ -1,13 +1,20 @@
 #include <stdio.h>
-int main()
+void test(char a)
 {
     static char *str = NULL;
+    str = &a;
+    printf("%c\n" , *str);
+}
+
+
+int main()
+{
     int i;
 
-    for(i = 0; i > 3; i++)
-    {
-        str = "abc";
-        printf("oi %s\n" , str);
-    }
+    test('a');
+    test('b');
+    test('c');
+
     return(0);
 }
+

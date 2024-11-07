@@ -2,7 +2,7 @@
 #include <stdio.h>
 
 char	*ft_strchr(const char *s, int c);
-char* get_line(int fd, char *overflow);
+char* get_line(int fd, char **overflow);
 
 
 char *get_next_line(int fd)
@@ -10,7 +10,7 @@ char *get_next_line(int fd)
     static char* overflow = NULL;
     char *line;
     
-    line = get_line(fd, overflow);
+    line = get_line(fd, &overflow);
     return(line);  
 }
 
@@ -33,21 +33,23 @@ char	*ft_strchr(const char *s, int c)
 		return (NULL);
 }
 
-char* get_line(int fd, char *overflow)
+char* get_line(int fd, char **overflow)
 {
     char    *chunk;
     char    *line;
     char    *tab_position;
     int     text;
 
+    text = 1;
     chunk = malloc(sizeof(char) * (BUFFER_SIZE + 1));
     if(chunk == NULL)
         return (NULL);
     chunk[BUFFER_SIZE] = '\0';
-    printf("aqui: %s\n", chunk);
-    if (overflow != NULL)
-        line = ft_strjoin(overflow, chunk);
-    free(overflow);
+    //printf("aqui: %s\n", chunk);
+    if (*overflow != NULL)
+        line = ft_strjoin(*overflow, chunk);
+    free(*overflow);
+    *overflow = NULL;
     while (text)
     {
         text = read(fd, chunk, BUFFER_SIZE);
@@ -60,8 +62,8 @@ char* get_line(int fd, char *overflow)
             break;
         }
     }
-    overflow = ft_strdup((tab_position + 1));
-    //printf("overflow %s\n" , overflow);
+    *overflow = ft_strdup((tab_position + 1));
+    printf("\noverflow %s\n" , *overflow);
     return(line);
 }
 
@@ -76,9 +78,11 @@ int main()
     {
         line = get_next_line(fd);
         //printf("retornei: %s\n" , line);
-        ft_putstr(line);
-        //free(line);
+        //ft_putstr(line);
     }
     close(fd);
     return (0);
 }
+
+
+
