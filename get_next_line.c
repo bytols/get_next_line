@@ -33,6 +33,30 @@ char	*ft_strchr(const char *s, int c)
 		return (NULL);
 }
 
+char    *cut_overflow(char *overflow, char **line)
+{
+    int len_overflow;
+    int len_line;
+    int i;
+    char    *new_line;
+
+    i = 0;
+    len_overflow = ft_strlen(overflow);
+    len_line = ft_strlen(line);    
+    len_line = (len_line - len_overflow + 1);
+    new_line = malloc(sizeof(char) *(len_line));
+    new_line[len_line] = '\0';
+    while (*line[i] != '\n' && *line[i])
+    {
+        new_line[i] = *line[i];
+        i++;
+        
+    }
+    free(line);
+    return(line);
+    
+}
+
 char* get_line(int fd, char **overflow)
 {
     char    *chunk;
@@ -45,25 +69,20 @@ char* get_line(int fd, char **overflow)
     if(chunk == NULL)
         return (NULL);
     chunk[BUFFER_SIZE] = '\0';
-    //printf("aqui: %s\n", chunk);
     if (*overflow != NULL)
         line = ft_strjoin(*overflow, chunk);
     free(*overflow);
-    *overflow = NULL;
     while (text)
     {
         text = read(fd, chunk, BUFFER_SIZE);
         line = ft_strjoin(line, chunk);
         tab_position = ft_strchr(line, '\n');
-        //printf("tab position: %s\n", tab_position);
         if(tab_position)
-        {
-            //printf("aqui está a line %s\n" , line);
             break;
-        }
     }
     *overflow = ft_strdup((tab_position + 1));
-    printf("\noverflow %s\n" , *overflow);
+    line = cut_overflow(*overflow, &line);
+    //printf("\noverflow %s\n" , *overflow);
     return(line);
 }
 
@@ -78,7 +97,9 @@ int main()
     {
         line = get_next_line(fd);
         //printf("retornei: %s\n" , line);
-        //ft_putstr(line);
+        write(1, "\n",1);
+        ft_putstr(line);
+        write(1, "\n",1);
     }
     close(fd);
     return (0);
