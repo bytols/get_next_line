@@ -25,11 +25,12 @@ int main()
     {
         num = read(fd, buffer, BUFFER_SIZE);
         printf("%d\n" , num);
+        ft_putstr(buffer);
     }
-    //ft_putstr(buffer);
 	close(fd);
 }
 
 //checkar se o fd é anceitavel
 // checaar se o arquivo tem algo para ser lido
 // tem que retornar null caso algo dê errado
+

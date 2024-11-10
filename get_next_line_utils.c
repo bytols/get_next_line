@@ -48,7 +48,7 @@ char	*ft_putstr(char *s)
 	int		i;
 
 	i = 0;
-	while (s[i] != '\0' && s[i] != '\r')
+	while (s[i] != '\0' && s[i] != '\n')
 	{
 		write (1, &s[i], 1);
 		i++;
