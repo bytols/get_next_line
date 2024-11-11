@@ -12,7 +12,7 @@ char *ft_putstr(char *str)
     return(str);  
 }
 
-int main()
+/*int main()
 {
 	char    letter;
 	char    buffer[BUFFER_SIZE];
@@ -28,7 +28,7 @@ int main()
         ft_putstr(buffer);
     }
 	close(fd);
-}
+}*/
 
 //checkar se o fd é anceitavel
 // checaar se o arquivo tem algo para ser lido

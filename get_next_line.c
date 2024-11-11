@@ -79,8 +79,6 @@ char *join_line(char **line , char **chunk, char **tab_position, int text)
         return(*tab_position);
 }
 
-
-
 char* get_line(int fd, char **overflow, int text)
 {
     char    *chunk;
@@ -96,8 +94,12 @@ char* get_line(int fd, char **overflow, int text)
         if(!(chunk = malloc(sizeof(char) * (BUFFER_SIZE + 1))))
             return (NULL);
         text = read(fd, chunk, BUFFER_SIZE);
-        if(text == -1 && text)
+        if(text == -1 || text == 0)
+        {
+            free(chunk);
+            free(line);
             return (NULL);
+        }
         tab_position = join_line(&line ,&chunk, &tab_position, text);
         if(tab_position)
             break;
@@ -110,7 +112,7 @@ char* get_line(int fd, char **overflow, int text)
     return(line);
 }
 
-int main()
+/*int main()
 {
     int fd;
     int i;
@@ -120,12 +122,14 @@ int main()
     for(i = 0; i < 5; i++)
     {
         line = get_next_line(fd);
-        ft_putstr(line);
+        if (line)
+            ft_putstr(line);
         write(1, "\n",1);
+        free(line);
     }
     close(fd);
     return (0);
-}
+}*/
 
 
 
