@@ -67,14 +67,17 @@ char    *cut_overflow(char *overflow, char **line)
 
 char *join_line(char **line , char **chunk, char **tab_position, int text)
 {
+        char    *temp;
         if (text < 0)
         {
             free(chunk);
             return NULL;
         }
         (*chunk)[BUFFER_SIZE] = '\0';
-        *line = ft_strjoin(*line, *chunk);
+        temp = ft_strjoin(*line, *chunk);
+        free(*line);
         free(*chunk);
+        *line = temp;
         *tab_position = ft_strchr(*line, '\n');
         return(*tab_position);
 }
@@ -86,6 +89,7 @@ char* get_line(int fd, char **overflow, int text)
     char    *tab_position;
 
     line = "\0";
+    tab_position = "\0";
     if (*overflow && overflow)
         line = ft_strjoin(*overflow, line);
     free(*overflow);
