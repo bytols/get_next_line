@@ -2,7 +2,7 @@
 #include <stdio.h>
 
 char	*ft_strchr(const char *s, int c);
-char* get_line(int fd, char **overflow);
+char* get_line(int fd, char **overflow, int text);
 
 
 // checkar buffersize = 0! :)
@@ -10,8 +10,10 @@ char *get_next_line(int fd)
 {
     static char* overflow = NULL;
     char *line;
+    int text;
     
-    line = get_line(fd, &overflow);
+    text = 1;
+    line = get_line(fd, &overflow, text);
     return(line);  
 }
 
@@ -63,15 +65,20 @@ char    *cut_overflow(char *overflow, char **line)
     
 }
 
-char* get_line(int fd, char **overflow)
+char *join_line()
+{
+    return(NULL);
+}
+
+
+
+char* get_line(int fd, char **overflow, int text)
 {
     char    *chunk;
     char    *line;
     char    *tab_position;
-    int     text;
 
-    text = 1;
-    line = "";
+    line = "\0";
     if (*overflow && overflow)
         line = ft_strjoin(*overflow, line);
     free(*overflow);
