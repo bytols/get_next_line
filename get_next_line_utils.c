@@ -43,19 +43,6 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (ptr);
 }
 
-char	*ft_putstr(char *s)
-{
-	int		i;
-
-	i = 0;
-	while (s[i] != '\0' && s[i] != '\n')
-	{
-		write (1, &s[i], 1);
-		i++;
-	}
-	return(&s[i]);
-}
-
 char	*ft_strdup(const char *s)
 {
 	char	*ptr;
@@ -77,4 +64,37 @@ char	*ft_strdup(const char *s)
 	}
 	ptr[len] = '\0';
 	return (ptr);
+}
+
+char	*ft_strchr(const char *s, int c)
+{
+	int		i;
+	char	*ptr;
+
+	ptr = (char *)s;
+	i = 0;
+	while (ptr[i] != '\0')
+	{
+		if (ptr[i] == (char)c)
+			return (&ptr[i]);
+		i++;
+	}
+	if (c == '\0' && ptr[i] == '\0')
+		return (&ptr[i]);
+	else
+		return (NULL);
+}
+
+//tirar depois
+char	*ft_putstr(char *s)
+{
+	int		i;
+
+	i = 0;
+	while (s[i] != '\0' && s[i] != '\n')
+	{
+		write (1, &s[i], 1);
+		i++;
+	}
+	return(&s[i]);
 }
