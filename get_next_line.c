@@ -1,23 +1,92 @@
 #include "get_next_line.h"
 #include <stdio.h>
 
-char	*ft_strchr(const char *s, int c);
-char* get_line(int fd, char **overflow, int text);
+static char	*ft_strchr(const char *s, int c);
+static char    *get_line(int fd, char **overflow, char *chunk);
+static void cut_excess(char **line , char **overflow);
 
 
-// checkar buffersize = 0! :)
+
 char *get_next_line(int fd)
 {
     static char* overflow = NULL;
+    char *chunk;
     char *line;
-    int text;
     
-    text = 1;
-    line = get_line(fd, &overflow, text);
+    chunk = malloc(sizeof(char) * (BUFFER_SIZE + 1));
+    if (!chunk || BUFFER_SIZE <= 0 || fd < 0)
+    {
+        free (chunk);
+        free (overflow);
+        chunk = NULL;
+        overflow = NULL;
+        return (NULL);
+    }
+    line = get_line(fd, &overflow, chunk);
+    free(chunk);
+    if (!line)
+    {
+        free(overflow);
+        overflow = NULL;
+        return (NULL);
+    }
+    cut_excess(&line ,&overflow);
+    if (!line)
+        return (NULL);
     return(line);  
 }
 
-char	*ft_strchr(const char *s, int c)
+static char* get_line(int fd, char **overflow, char *chunk)
+{
+    char *temp;
+    int text;
+
+    text = 1;
+    while (text)
+    {
+        text = read(fd,chunk, BUFFER_SIZE);
+        if (text < 0)
+            return (NULL);
+        chunk[BUFFER_SIZE] = '\0';
+        if (text == 0)
+            break;
+        if(!(*overflow))
+            *overflow = ft_strdup("");
+        temp = *overflow;
+        *overflow = ft_strjoin(temp, chunk);
+        free(temp);
+        if(ft_strchr(*overflow, '\n'))
+            break;
+    }
+    return(*overflow);
+}
+
+static void cut_excess(char **line , char **overflow)
+{
+    char    *temp;
+    char    *space_position;
+    int start;
+    int len_after_space;
+
+    start = 0;
+    len_after_space = 0;
+    space_position = ft_strchr(*overflow, '\n');
+    if (!space_position)
+    {
+        *line = ft_strdup(*overflow);
+        free(*overflow);
+        *overflow = NULL;
+        return ;
+    }
+    start = ft_strlen(*overflow);
+    len_after_space = ft_strlen((space_position) + 1);
+    start = start - len_after_space;
+    temp = ft_strdup(*overflow);
+    *overflow = ft_substr(temp, start, ft_strlen((space_position + 1)));
+    *line = ft_substr(temp, 0 , start);
+    free(temp);
+}
+static char	*ft_strchr(const char *s, int c)
 {
 	int		i;
 	char	*ptr;
@@ -36,86 +105,6 @@ char	*ft_strchr(const char *s, int c)
 		return (NULL);
 }
 
-char    *cut_overflow(char *overflow, char **line)
-{
-    int len_overflow;
-    int len_line;
-    int i;
-    char    *new_line;
-
-    i = 0;
-    if (overflow != NULL)
-        len_overflow = ft_strlen(overflow);
-    else
-        len_overflow = 0;
-    len_line = ft_strlen(*line);   
-    len_line = (len_line - len_overflow + 1);
-    new_line = (char *)malloc(sizeof(char) *(len_line));
-    if (!(new_line))
-        return(NULL);
-    while (i < len_line)
-    {
-        new_line[i] = (*line)[i];
-        i++; 
-    }
-    new_line[i] = '\0';
-    free(*line);
-    *line = NULL;
-    return(new_line);
-    
-}
-
-char *join_line(char **line , char **chunk, char **tab_position, int text)
-{
-        char    *temp;
-        if (text < 0)
-        {
-            free(chunk);
-            return NULL;
-        }
-        (*chunk)[BUFFER_SIZE] = '\0';
-        temp = ft_strjoin(*line, *chunk);
-        free(*line);
-        free(*chunk);
-        *line = temp;
-        *tab_position = ft_strchr(*line, '\n');
-        return(*tab_position);
-}
-
-char* get_line(int fd, char **overflow, int text)
-{
-    char    *chunk;
-    char    *line;
-    char    *tab_position;
-
-    line = "\0";
-    tab_position = "\0";
-    if (*overflow && overflow)
-        line = ft_strjoin(*overflow, line);
-    free(*overflow);
-    while (text)
-    {
-        if(!(chunk = malloc(sizeof(char) * (BUFFER_SIZE + 1))))
-            return (NULL);
-        text = read(fd, chunk, BUFFER_SIZE);
-        if(text == -1 || text == 0)
-        {
-            free(chunk);
-            free(line);
-            return (NULL);
-        }
-        tab_position = join_line(&line ,&chunk, &tab_position, text);
-        if(tab_position)
-            break;
-    }
-    if(tab_position)
-        *overflow = ft_strdup((tab_position + 1));
-    else
-        overflow = NULL;
-    line = cut_overflow(*overflow, &line);
-    return(line);
-}
-
 /*int main()
 {
     int fd;
@@ -126,14 +115,15 @@ char* get_line(int fd, char **overflow, int text)
     for(i = 0; i < 5; i++)
     {
         line = get_next_line(fd);
-        if (line)
+        if (line){
             ft_putstr(line);
+            if (line == NULL)
+                printf("é null!\n");
+            //free(line);
+            //line = NULL;
+        }
         write(1, "\n",1);
-        free(line);
     }
     close(fd);
     return (0);
 }*/
-
-
-

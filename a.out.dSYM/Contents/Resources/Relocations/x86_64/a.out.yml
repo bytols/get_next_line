@@ -1,0 +1,19 @@
+---
+triple:          'x86_64-apple-darwin'
+binary-path:     a.out
+relocations:
+  - { offset: 0x26, size: 0x8, addend: 0x0, symName: _get_next_line, symObjAddr: 0x0, symBinAddr: 0x100000720, symSize: 0x110 }
+  - { offset: 0x33, size: 0x8, addend: 0x0, symName: _get_next_line, symObjAddr: 0x0, symBinAddr: 0x100000720, symSize: 0x110 }
+  - { offset: 0x58, size: 0x8, addend: 0x0, symName: _get_next_line.overflow, symObjAddr: 0xEE8, symBinAddr: 0x100002000, symSize: 0x0 }
+  - { offset: 0x9F, size: 0x8, addend: 0x0, symName: _get_line, symObjAddr: 0x110, symBinAddr: 0x100000830, symSize: 0xF0 }
+  - { offset: 0xFF, size: 0x8, addend: 0x0, symName: _cut_excess, symObjAddr: 0x200, symBinAddr: 0x100000920, symSize: 0xF0 }
+  - { offset: 0x169, size: 0x8, addend: 0x0, symName: _main, symObjAddr: 0x2F0, symBinAddr: 0x100000A10, symSize: 0xB0 }
+  - { offset: 0x1AD, size: 0x8, addend: 0x0, symName: _ft_strchr, symObjAddr: 0x3A0, symBinAddr: 0x100000AC0, symSize: 0xAC }
+  - { offset: 0x23B, size: 0x8, addend: 0x0, symName: _ft_strlen, symObjAddr: 0x0, symBinAddr: 0x100000B70, symSize: 0x50 }
+  - { offset: 0x254, size: 0x8, addend: 0x0, symName: _ft_strlen, symObjAddr: 0x0, symBinAddr: 0x100000B70, symSize: 0x50 }
+  - { offset: 0x298, size: 0x8, addend: 0x0, symName: _ft_strjoin, symObjAddr: 0x50, symBinAddr: 0x100000BC0, symSize: 0xB0 }
+  - { offset: 0x2F8, size: 0x8, addend: 0x0, symName: _f_strncmp, symObjAddr: 0x100, symBinAddr: 0x100000C70, symSize: 0x60 }
+  - { offset: 0x346, size: 0x8, addend: 0x0, symName: _ft_strdup, symObjAddr: 0x160, symBinAddr: 0x100000CD0, symSize: 0x100 }
+  - { offset: 0x398, size: 0x8, addend: 0x0, symName: _ft_substr, symObjAddr: 0x260, symBinAddr: 0x100000DD0, symSize: 0x130 }
+  - { offset: 0x414, size: 0x8, addend: 0x0, symName: _ft_putstr, symObjAddr: 0x390, symBinAddr: 0x100000F00, symSize: 0x61 }
+...

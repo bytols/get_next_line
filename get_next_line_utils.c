@@ -30,7 +30,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	int		i;
 	int		len;
 	char	*ptr;
-
+	// talvez verificar se os s1 são nulls?
 	i = 0;
 	len = ft_strlen(s1);
 	len += ft_strlen(s2);
@@ -43,18 +43,6 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (ptr);
 }
 
-char	*ft_putstr(char *s)
-{
-	int		i;
-
-	i = 0;
-	while (s[i] != '\0' && s[i] != '\n')
-	{
-		write (1, &s[i], 1);
-		i++;
-	}
-	return(&s[i]);
-}
 
 char	*ft_strdup(const char *s)
 {
@@ -77,4 +65,44 @@ char	*ft_strdup(const char *s)
 	}
 	ptr[len] = '\0';
 	return (ptr);
+}
+
+char	*ft_substr(char const *s, unsigned int start, size_t len)
+{
+	char	*ptr;
+	char	*str;
+	size_t	s_len;
+	size_t	i;
+
+	i = 0;
+	str = (char *)s;
+	s_len = ft_strlen(str);
+	if (s_len <= start)
+		len = 0;
+	if (len > s_len - start)
+		len = s_len - start;
+	ptr = (char *) malloc(sizeof(char) * (len + 1));
+	if (ptr == NULL)
+		return (NULL);
+	while ((i < len) && (str[start] != '\0'))
+	{
+		ptr[i] = str[start];
+		i++;
+		start++;
+	}
+	ptr[i] = '\0';
+	return (ptr);
+}
+
+char	*ft_putstr(char *s)
+{
+	int		i;
+
+	i = 0;
+	while (s[i] != '\0')
+	{
+		write (1, &s[i], 1);
+		i++;
+	}
+	return(&s[i]);
 }
