@@ -52,7 +52,7 @@ char	*ft_strdup(const char *s)
 
 	len = 0;
 	str = (char *) s;
-	while (str[len] != '\0' && str[len] != '\n')
+	while (str[len] != '\0')
 		len++;
 	ptr = (char *)malloc(sizeof(char) * (len + 1));
 	if (ptr == NULL)

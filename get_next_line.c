@@ -47,7 +47,7 @@ static char* get_line(int fd, char **overflow, char *chunk)
         if (text < 0)
             return (NULL);
         if (text == 0)
-            return (NULL);
+            return (*overflow);
         chunk[text] = '\0';
         if(!(*overflow))
             *overflow = ft_strdup("");
@@ -74,15 +74,11 @@ static void cut_excess(char **line, char **overflow)
         *overflow = NULL;
         return;
     }
-    if (*(space_position + 1) == 0)
-    {
-        *line =  NULL   ;
-        free(*overflow);
-        *overflow = NULL;
-        return ; 
-    }
-    *line = ft_substr(*overflow, 0, space_position - *overflow);
-    new_overflow = ft_strdup(space_position + 1);
+    *line = ft_substr(*overflow, 0, (space_position - *overflow + 1));
+    if (*(space_position + 1) != '\0')
+        new_overflow = ft_strdup(space_position + 1);
+    else
+        new_overflow = NULL;
     free(*overflow);
     *overflow = new_overflow;
 }
@@ -106,6 +102,7 @@ static char	*ft_strchr(const char *s, int c)
 		return (NULL);
 }
 
+//ver os testes do tester e testar aqui com o debbuger!
 /*int main()
 {
     int fd;
@@ -113,12 +110,12 @@ static char	*ft_strchr(const char *s, int c)
     char    *line;
 
     fd = open("text.txt", O_RDWR);
-    for(i = 0; i < 2; i++)
+    for(i = 0; i < 7; i++)
     {
         line = get_next_line(fd);
+        printf("%s", line);
         free(line);
         line = NULL;
-        write(1, "\n",1);
     }
     close(fd);
     return (0);
