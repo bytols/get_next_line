@@ -24,6 +24,7 @@ char *get_next_line(int fd)
     }
     line = get_line(fd, &overflow, chunk);
     free(chunk);
+    chunk = NULL;
     if (!line)
     {
         free(overflow);
@@ -31,8 +32,6 @@ char *get_next_line(int fd)
         return (NULL);
     }
     cut_excess(&line ,&overflow);
-    if (!line)
-        return (NULL);
     return(line);  
 }
 
@@ -47,45 +46,47 @@ static char* get_line(int fd, char **overflow, char *chunk)
         text = read(fd,chunk, BUFFER_SIZE);
         if (text < 0)
             return (NULL);
-        chunk[BUFFER_SIZE] = '\0';
         if (text == 0)
-            break;
+            return (NULL);
+        chunk[text] = '\0';
         if(!(*overflow))
             *overflow = ft_strdup("");
         temp = *overflow;
         *overflow = ft_strjoin(temp, chunk);
         free(temp);
+        temp = NULL;
         if(ft_strchr(*overflow, '\n'))
             break;
     }
     return(*overflow);
 }
 
-static void cut_excess(char **line , char **overflow)
+static void cut_excess(char **line, char **overflow)
 {
-    char    *temp;
-    char    *space_position;
-    int start;
-    int len_after_space;
+    char *space_position;
+    char *new_overflow;
 
-    start = 0;
-    len_after_space = 0;
     space_position = ft_strchr(*overflow, '\n');
     if (!space_position)
     {
         *line = ft_strdup(*overflow);
         free(*overflow);
         *overflow = NULL;
-        return ;
+        return;
     }
-    start = ft_strlen(*overflow);
-    len_after_space = ft_strlen((space_position) + 1);
-    start = start - len_after_space;
-    temp = ft_strdup(*overflow);
-    *overflow = ft_substr(temp, start, ft_strlen((space_position + 1)));
-    *line = ft_substr(temp, 0 , start);
-    free(temp);
+    if (*(space_position + 1) == 0)
+    {
+        *line =  NULL   ;
+        free(*overflow);
+        *overflow = NULL;
+        return ; 
+    }
+    *line = ft_substr(*overflow, 0, space_position - *overflow);
+    new_overflow = ft_strdup(space_position + 1);
+    free(*overflow);
+    *overflow = new_overflow;
 }
+
 static char	*ft_strchr(const char *s, int c)
 {
 	int		i;
@@ -112,16 +113,11 @@ static char	*ft_strchr(const char *s, int c)
     char    *line;
 
     fd = open("text.txt", O_RDWR);
-    for(i = 0; i < 5; i++)
+    for(i = 0; i < 2; i++)
     {
         line = get_next_line(fd);
-        if (line){
-            ft_putstr(line);
-            if (line == NULL)
-                printf("é null!\n");
-            //free(line);
-            //line = NULL;
-        }
+        free(line);
+        line = NULL;
         write(1, "\n",1);
     }
     close(fd);

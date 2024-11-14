@@ -8,9 +8,8 @@
                 "-fcolor-diagnostics",
                 "-fansi-escape-codes",
                 "-g",
-                "${file}",
-                "-o",
-                "${fileDirname}/${fileBasenameNoExtension}"
+                "/home/ErickRocha/gnl_new/get_next_line.c",
+                "/home/ErickRocha/gnl_new/get_next_line_utils.c",
             ],
             "options": {
                 "cwd": "${fileDirname}"
