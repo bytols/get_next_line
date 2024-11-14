@@ -1,11 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: erocha-l <erocha-l@student.42.rio>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/14 13:22:22 by erocha-l          #+#    #+#             */
+/*   Updated: 2024/11/14 13:22:22 by erocha-l         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 #include "get_next_line.h"
 #include <stdio.h>
 
 static char	*ft_strchr(const char *s, int c);
 static char    *get_line(int fd, char **overflow, char *chunk);
 static void cut_excess(char **line , char **overflow);
-
-
 
 char *get_next_line(int fd)
 {

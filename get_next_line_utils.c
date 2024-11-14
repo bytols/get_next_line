@@ -30,7 +30,6 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	int		i;
 	int		len;
 	char	*ptr;
-	// talvez verificar se os s1 são nulls?
 	i = 0;
 	len = ft_strlen(s1);
 	len += ft_strlen(s2);
@@ -92,17 +91,4 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	}
 	ptr[i] = '\0';
 	return (ptr);
-}
-
-char	*ft_putstr(char *s)
-{
-	int		i;
-
-	i = 0;
-	while (s[i] != '\0')
-	{
-		write (1, &s[i], 1);
-		i++;
-	}
-	return(&s[i]);
 }
