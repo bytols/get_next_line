@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: erocha-l <erocha-l@student.42.rio>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/18 20:24:46 by erocha-l          #+#    #+#             */
+/*   Updated: 2024/11/18 20:24:46 by erocha-l         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 #include "get_next_line.h"
 
 size_t	ft_strlen(const char *s)
@@ -30,6 +41,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	int		i;
 	int		len;
 	char	*ptr;
+
 	i = 0;
 	len = ft_strlen(s1);
 	len += ft_strlen(s2);
@@ -41,7 +53,6 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	ptr[i] = '\0';
 	return (ptr);
 }
-
 
 char	*ft_strdup(const char *s)
 {
