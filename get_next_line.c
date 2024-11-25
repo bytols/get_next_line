@@ -109,23 +109,3 @@ static char	*ft_strchr(const char *s, int c)
 	else
 		return (NULL);
 }
-
-//ver os testes do tester e testar aqui com o debbuger!
-#include <stdio.h>
-int main()
-{
-	int fd;
-	int i;
-	char    *line;
-
-	fd = open("text.txt", O_RDWR);
-	for(i = 0; i < 7; i++)
-	{
-		line = get_next_line(1);
-		printf("%s", line);
-		free(line);
-		line = NULL;
-	}
-	close(fd);
-	return (0);
-}
